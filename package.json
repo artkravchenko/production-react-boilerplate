@@ -1,0 +1,23 @@
+{
+  "name": "production-react-boilerplate",
+  "version": "0.1.0",
+  "description": "",
+  "workspaces": [
+    "packages/*"
+  ],
+
+  "license": "MIT",
+  "private": true,
+  "author": {
+    "name": "Artem Kravchenko",
+    "email": "kravchenkofirst@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oopscurity/production-react-boilerplate.git"
+  },
+
+  "scripts": {
+
+  }
+}
