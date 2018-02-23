@@ -74,4 +74,4 @@ You just have `webpack` and friends pre-configured and well-explained for effici
 
 ## License
 
-React Production Boilerplate is [MIT licensed](README.md).
+React Production Boilerplate is [MIT licensed](LICENSE.md).
