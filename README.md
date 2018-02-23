@@ -6,18 +6,16 @@ Without need to remake the application from scratch in the nearest future, when 
 
 You just have `webpack` and friends pre-configured and well-explained for efficient usage without mess.
 
-**Warning:** the boilerplate isn't stable yet and there're incomplete stages of development. That said, it isn't recommended to use the project at production until `v1.0.0` is released.
-
-___
+**Warning:** the boilerplate isn't stable yet and there're incomplete stages of development. That said, it isn't recommended to use the project at production until `v1.0.0` is released. 
 
 ## Development status
 
-### Hot-reloading
+#### Hot-reloading
 
   - [ ] hot-reload client-side bundle;
   - [ ] hot-reload SSR;
   - [ ] hot-reload API server;
-  - [ ] hot-reload shared resources (i18n especially)
+  - [ ] hot-reload shared resources (i18n especially);
 
 #### Build time
 
@@ -73,8 +71,6 @@ ___
   - [ ] provide methods to organize release pipeline powerfully and to increase overall uptime of application being under active development;
 
 #### Performance
-
-___
 
 ## License
 
