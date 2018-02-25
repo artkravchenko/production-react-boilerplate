@@ -18,6 +18,13 @@
   },
 
   "scripts": {
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "start": "lerna run start --parallel",
+    "test": "lerna run test"
+  },
 
+  "devDependencies": {
+    "lerna": "2.8.0"
   }
 }
