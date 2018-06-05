@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "jest"
+    "ci": "yarn test",
+    "test": "jest --color"
   },
   "devDependencies": {
     "jest": "23.1.0"
