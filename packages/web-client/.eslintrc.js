@@ -6,6 +6,7 @@ module.exports = {
     jest: true,
   },
   extends: ['eslint:recommended', 'plugin:jest/recommended'],
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
