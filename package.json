@@ -5,7 +5,6 @@
   "workspaces": [
     "packages/*"
   ],
-
   "license": "MIT",
   "private": true,
   "author": {
@@ -16,8 +15,18 @@
     "type": "git",
     "url": "git+https://github.com/Oopscurity/production-react-boilerplate.git"
   },
-
   "scripts": {
-
+    "build": "lerna run build",
+    "ci": "lerna run ci --stream --concurrency 1",
+    "clean": "lerna run clean",
+    "lint": "lerna run lint --stream",
+    "start": "lerna run start --parallel --stream",
+    "test": "lerna run test --stream --concurrency 1"
+  },
+  "devDependencies": {
+    "husky": "0.15.0-rc.8",
+    "lerna": "2.8.0",
+    "lint-staged": "7.0.0",
+    "prettier": "1.10.2"
   }
 }

@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.9.4
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
+          name: Restore node_modules cache
+
+      - run:
+          command: yarn install
+          name: Install packages
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+          name: Save node_modules cache
+          paths:
+            - node_modules
+            - packages/api/node_modules
+            - packages/shared/node_modules
+            - packages/web-client/node_modules
+            - packages/web-server/node_modules
+
+      - run:
+          command: yarn ci
+          name: Test packages
