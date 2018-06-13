@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "ci": "yarn lint && yarn test",
+    "ci": "npm run lint && (npm run test -- --ci)",
     "lint": "eslint . --ext .js -c .eslintrc.js --color",
-    "test": "jest --color"
+    "test": "jest --color --coverage"
   },
   "devDependencies": {
+    "@babel/core": "7.0.0-beta.51",
+    "babel-jest": "23.0.1",
     "eslint": "4.19.1",
     "eslint-plugin-jest": "21.17.0",
     "jest": "23.1.0"
