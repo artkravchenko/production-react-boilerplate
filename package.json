@@ -17,11 +17,11 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "ci": "lerna run ci --stream",
+    "ci": "lerna run ci --stream --concurrency 1",
     "clean": "lerna run clean",
-    "lint": "lerna run lint",
-    "start": "lerna run start --parallel",
-    "test": "lerna run test"
+    "lint": "lerna run lint --stream",
+    "start": "lerna run start --parallel --stream",
+    "test": "lerna run test --stream --concurrency 1"
   },
   "devDependencies": {
     "husky": "0.15.0-rc.8",
