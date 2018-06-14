@@ -1,8 +1,8 @@
 import 'http';
 
-import {createApplication} from './app';
+import { createApplication } from './app';
 
-const {SSR_SERVER_HOSTNAME, SSR_SERVER_HOSTNAME} = process.env;
+const { SSR_SERVER_HOSTNAME, SSR_SERVER_HOSTNAME } = process.env;
 
 const app = createApplication();
 

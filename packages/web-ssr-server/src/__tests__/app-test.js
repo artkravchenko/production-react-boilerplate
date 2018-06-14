@@ -1,6 +1,6 @@
 import http from 'http';
 import request from 'supertest';
-import {createApplication} from '../app.js';
+import { createApplication } from '../app.js';
 
 describe('app.js', () => {
   describe('application', () => {

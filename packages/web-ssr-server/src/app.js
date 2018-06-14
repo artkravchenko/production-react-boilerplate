@@ -28,4 +28,4 @@ function createApplication() {
 // react-ssr?
 // admin?
 
-export {createApplication};
+export { createApplication };
