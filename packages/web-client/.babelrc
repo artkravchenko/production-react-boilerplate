@@ -1,7 +1,4 @@
 {
-  "presets": [
-    
-  ],
-  "sourceMaps": "both",
+  "presets": [],
   "plugins": []
 }
