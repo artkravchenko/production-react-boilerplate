@@ -1,4 +1,3 @@
-import http from 'http';
 import request from 'supertest';
 import { createApplication } from '../app.js';
 
@@ -13,10 +12,14 @@ describe('app.js', () => {
           .expect(200);
       });
 
-      it('responds with "Hello, world!"', () => {
+      it('responds with "Hello, world!" title', () => {
         return request(app)
           .get('/hello')
-          .expect('Hello, world!');
+          .expect(res => {
+            if (!res.text.includes('<title>Hello, world!</title>')) {
+              throw new Error('"Hello, world!" HTML title is missing');
+            }
+          });
       });
     });
   });

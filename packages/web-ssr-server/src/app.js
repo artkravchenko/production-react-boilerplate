@@ -1,19 +1,7 @@
 import express from 'express';
-import http from 'http';
+import path from 'path';
 
-function createApplication() {
-  const app = express();
-
-  app.get('/hello', (req, res, next) => {
-    if (res.headersSent) {
-      return;
-    }
-
-    res.send('Hello, world!');
-  });
-
-  return app;
-}
+import { renderMiddleware } from './services/render';
 
 // logging
 // cors
@@ -27,5 +15,30 @@ function createApplication() {
 // react
 // react-ssr?
 // admin?
+
+function createApplication() {
+  const app = express();
+
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'ejs');
+
+  if (process.env.ENABLE_WEBPACK_DEV_SERVER) {
+    const webpack = require('webpack');
+    const webpackDevMiddleware = require('webpack-dev-middleware');
+    const webpackConfig = require('web-client/resources/build/webpack/app.config.js');
+
+    const compiler = webpack(webpackConfig);
+
+    app.use(
+      webpackDevMiddleware(compiler, {
+        publicPath: webpackConfig.output.publicPath,
+      })
+    );
+  }
+
+  app.get('*', renderMiddleware);
+
+  return app;
+}
 
 export { createApplication };
