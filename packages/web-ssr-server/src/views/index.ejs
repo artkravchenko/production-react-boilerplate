@@ -7,6 +7,9 @@
   </head>
   <body>
     <div id="app"></div>
-    <script src="/assets/app.js"></script>
+
+    <% assets.scripts.forEach((path) => { %>
+      <script src="<%= path %>"></script>
+    <% }); %>
   </body>
 </html>

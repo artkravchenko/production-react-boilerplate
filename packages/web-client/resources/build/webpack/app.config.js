@@ -55,6 +55,14 @@ if (__DEV__) {
       path: path.join(context, 'build/public'),
       publicPath: '/',
     },
+
+    plugins: [
+      new webpack.DllReferencePlugin({
+        context,
+        manifest: path.join(context, 'build/webpack/vendor-manifest.json'),
+        name: 'vendor',
+      }),
+    ],
   });
 }
 
