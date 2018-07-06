@@ -1,0 +1,24 @@
+{
+  "eslint.workingDirectories": [
+    {
+      "changeProcessCWD": true,
+      "directory": "./packages/api"
+    },
+    {
+      "changeProcessCWD": true,
+      "directory": "./packages/shared"
+    },
+    {
+      "changeProcessCWD": true,
+      "directory": "./packages/web-client"
+    },
+    {
+      "changeProcessCWD": true,
+      "directory": "./packages/web-server"
+    },
+    {
+      "changeProcessCWD": true,
+      "directory": "./packages/web-ssr-server"
+    }
+  ]
+}
