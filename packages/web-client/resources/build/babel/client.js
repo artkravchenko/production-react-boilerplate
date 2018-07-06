@@ -22,6 +22,7 @@ function getClientBabelConfig() {
           useBuiltIns: 'usage',
         },
       ],
+      '@babel/preset-react',
     ],
   };
 }

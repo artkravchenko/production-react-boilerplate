@@ -16,7 +16,8 @@
         ]
       },
       "useBuiltIns": "usage"
-    }]
+    }],
+    "@babel/preset-react"
   ],
   "plugins": []
 }
