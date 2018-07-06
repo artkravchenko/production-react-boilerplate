@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const { getClientBabelConfig } = require('../babel/client');
 const merge = require('./utils/merge');
 
 const context = path.join(__dirname, '../../../'),
@@ -29,8 +30,8 @@ const configuration = {
         use: {
           loader: 'babel-loader',
           options: {
-            babelrc: true,
             cacheDirectory: true,
+            ...getClientBabelConfig(),
           },
         },
       },
