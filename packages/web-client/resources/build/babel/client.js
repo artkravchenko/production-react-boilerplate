@@ -1,5 +1,6 @@
 function getClientBabelConfig() {
   return {
+    babelrc: false,
     plugins: [],
     presets: [
       [
