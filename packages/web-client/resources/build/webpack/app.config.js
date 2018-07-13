@@ -7,11 +7,22 @@ const merge = require('./utils/merge');
 const context = path.join(__dirname, '../../../'),
   __DEV__ = process.env.NODE_ENV !== 'production';
 
+function getEntry() {
+  if (process.env.WEBPACK_ENABLE_HMR === '1') {
+    return [
+      'webpack-hot-middleware/client?reload=true&timeout=2000',
+      './src/index.js',
+    ];
+  }
+
+  return ['./src/index.js'];
+}
+
 const configuration = {
   context,
 
   entry: {
-    app: './src/index.js',
+    app: getEntry(),
   },
 
   mode: 'none',
@@ -43,6 +54,10 @@ const configuration = {
   target: 'web',
 };
 
+function truthy(x) {
+  return x;
+}
+
 if (__DEV__) {
   merge(configuration, {
     bail: true,
@@ -62,7 +77,11 @@ if (__DEV__) {
         manifest: path.join(context, 'build/webpack/vendor-manifest.json'),
         name: 'vendor',
       }),
-    ],
+
+      process.env.WEBPACK_ENABLE_HMR === '1'
+        ? new webpack.HotModuleReplacementPlugin()
+        : null,
+    ].filter(truthy),
   });
 }
 

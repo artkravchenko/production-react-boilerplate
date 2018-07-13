@@ -26,7 +26,7 @@ function createApplication() {
     express.static(path.join(__dirname, '../../web-client/build/public'))
   );
 
-  if (process.env.WEBPACK_ENABLE_DEV_SERVER) {
+  if (process.env.WEBPACK_ENABLE_DEV_SERVER === '1') {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackConfig = require('web-client/resources/build/webpack/app.config.js');
@@ -35,9 +35,20 @@ function createApplication() {
 
     app.use(
       webpackDevMiddleware(compiler, {
+        hot: process.env.WEBPACK_ENABLE_HMR === '1',
         publicPath: webpackConfig.output.publicPath,
       })
     );
+
+    if (process.env.WEBPACK_ENABLE_HMR === '1') {
+      const webpackHotMiddleware = require('webpack-hot-middleware');
+
+      app.use(
+        webpackHotMiddleware(compiler, {
+          heartbeat: 1000,
+        })
+      );
+    }
   }
 
   app.get('*', renderMiddleware);
