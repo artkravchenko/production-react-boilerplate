@@ -26,7 +26,7 @@ function createApplication() {
     express.static(path.join(__dirname, '../../web-client/build/public'))
   );
 
-  if (process.env.ENABLE_WEBPACK_DEV_SERVER) {
+  if (process.env.WEBPACK_ENABLE_DEV_SERVER) {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
     const webpackConfig = require('web-client/resources/build/webpack/app.config.js');

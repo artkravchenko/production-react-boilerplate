@@ -12,7 +12,7 @@ function getAssets(isDevelopment) {
   };
 }
 
-const isDevServerEnabled = process.env.ENABLE_WEBPACK_DEV_SERVER === '1';
+const isDevServerEnabled = process.env.WEBPACK_ENABLE_DEV_SERVER === '1';
 
 export function renderMiddleware(req, res, next) {
   if (res.headersSent) {
