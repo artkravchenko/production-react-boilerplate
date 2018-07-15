@@ -53,6 +53,10 @@ function createApplication() {
 
   app.get('*', createRenderMiddleware());
 
+  if (process.env.SSR_ENABLED === '1') {
+    app.renderAsync = Promise.promisify(app.render, { context: app });
+  }
+
   return app;
 }
 

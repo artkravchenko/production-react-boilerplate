@@ -9,7 +9,9 @@
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.51",
+    "@babel/plugin-proposal-class-properties": "7.0.0-beta.51",
     "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.51",
+    "@babel/preset-react": "7.0.0-beta.51",
     "@babel/register": "7.0.0-beta.51",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "23.0.1",
@@ -21,6 +23,7 @@
     "webpack-hot-middleware": "2.22.2"
   },
   "dependencies": {
+    "bluebird": "3.5.1",
     "ejs": "2.6.1",
     "express": "4.16.3",
     "superagent": "3.8.3"

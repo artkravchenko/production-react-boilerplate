@@ -6,7 +6,11 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app"><%
+      if (typeof applicationHTML !== 'undefined') {
+        %><%- applicationHTML %><%
+      }
+    %></div>
 
     <% assets.scripts.forEach((path) => { %>
       <script src="<%= path %>"></script>

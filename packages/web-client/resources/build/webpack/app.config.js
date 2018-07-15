@@ -49,7 +49,13 @@ const configuration = {
     ],
   },
 
-  plugins: [new webpack.NamedModulesPlugin()],
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+
+    new webpack.EnvironmentPlugin({
+      SSR_ENABLED: null,
+    }),
+  ],
 
   target: 'web',
 };
