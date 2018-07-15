@@ -1,25 +1,38 @@
-function getAssets(isDevelopment) {
-  let scripts;
+import { isPlainObject } from 'lodash';
 
-  if (isDevelopment) {
-    scripts = ['/assets/vendor.js', '/assets/app.js'];
-  } else {
-    scripts = ['/assets/app.js'];
+import { getRenderingSteps } from './steps';
+
+function extend(locals, val) {
+  // FIXME: ensure `val` is non-object or plain object
+  // (not an array or smth) statically to simplify the condition
+  if (!isPlainObject(val)) {
+    return locals;
   }
 
-  return {
-    scripts,
-  };
+  return Object.assign({}, locals, val);
 }
 
-const isDevServerEnabled = process.env.WEBPACK_ENABLE_DEV_SERVER === '1';
-
-export function renderMiddleware(req, res, next) {
-  if (res.headersSent) {
-    return next();
+function iterateRender(locals, steps, bag) {
+  if (!steps.length) {
+    return locals;
   }
 
-  return res.status(200).render('index', {
-    assets: getAssets(isDevServerEnabled),
-  });
+  const res = steps[0](locals, bag);
+
+  if (res && typeof res.then === 'function') {
+    return res.then(val => {
+      return iterateRender(extend(locals, val), steps.slice(1), bag);
+    });
+  }
+
+  return iterateRender(extend(locals, res), steps.slice(1), bag);
+}
+
+export function createRenderMiddleware() {
+  const steps = getRenderingSteps();
+
+  return (req, res, next) => {
+    const initialLocals = res.locals;
+    return iterateRender(initialLocals, steps, { req, res, next });
+  };
 }

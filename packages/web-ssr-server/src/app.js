@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 
-import { renderMiddleware } from './services/render';
+import { createRenderMiddleware } from './services/render';
 
 // logging
 // cors
@@ -51,7 +51,7 @@ function createApplication() {
     }
   }
 
-  app.get('*', renderMiddleware);
+  app.get('*', createRenderMiddleware());
 
   return app;
 }
