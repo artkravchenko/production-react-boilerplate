@@ -4,7 +4,7 @@ export function getAssets() {
   let scripts;
 
   if (isDevServerEnabled) {
-    scripts = ['/assets/vendor.js', '/assets/app.js'];
+    scripts = ['/assets/manifest.js', '/assets/vendor.js', '/assets/app.js'];
   } else {
     scripts = ['/assets/app.js'];
   }

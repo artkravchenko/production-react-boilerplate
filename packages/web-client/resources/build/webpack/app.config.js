@@ -49,6 +49,17 @@ const configuration = {
     ],
   },
 
+  optimization: {
+    runtimeChunk: {
+      name: 'manifest',
+    },
+  },
+
+  output: {
+    path: path.join(context, 'build/public/assets'),
+    publicPath: '/assets/',
+  },
+
   plugins: [
     new webpack.NamedModulesPlugin(),
 
@@ -72,9 +83,7 @@ if (__DEV__) {
 
     output: {
       chunkFilename: '[name].js',
-      filename: 'assets/[name].js',
-      path: path.join(context, 'build/public'),
-      publicPath: '/',
+      filename: '[name].js',
     },
 
     plugins: [
