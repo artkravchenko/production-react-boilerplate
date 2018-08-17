@@ -32,7 +32,11 @@ export function createRenderMiddleware() {
   const steps = getRenderingSteps();
 
   return (req, res, next) => {
-    const initialLocals = res.locals;
+    const initialLocals = {
+      ...res.app.locals,
+      ...res.locals,
+    };
+
     return iterateRender(initialLocals, steps, { req, res, next });
   };
 }

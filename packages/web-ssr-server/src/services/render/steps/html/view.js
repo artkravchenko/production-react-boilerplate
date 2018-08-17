@@ -1,5 +1,3 @@
-import { getAssets } from '../../assets';
-
 export function renderView(locals, bag) {
   if (bag.res.headersSent) {
     return;
@@ -8,7 +6,7 @@ export function renderView(locals, bag) {
   return bag.res.app
     .renderAsync('index', {
       applicationHTML: locals.applicationHTML,
-      assets: getAssets(),
+      assets: locals.getAssets(),
     })
     .then(html => ({ html }));
 }

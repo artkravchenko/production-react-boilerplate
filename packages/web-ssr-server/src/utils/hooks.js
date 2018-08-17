@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   registerBabelHook({
     babelrc: false,
+    ignore: [/node_modules\/(?!shared)/],
     plugins: [
       '@babel/plugin-proposal-class-properties',
       '@babel/plugin-proposal-object-rest-spread',

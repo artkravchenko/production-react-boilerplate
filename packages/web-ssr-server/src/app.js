@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 
 import { createRenderMiddleware } from './services/render';
+import { createGetAssetsCreator } from './services/render/assets/index';
 
 // logging
 // cors
@@ -33,6 +34,10 @@ function createApplication() {
 
     const compiler = webpack(webpackConfig);
 
+    compiler.hooks.done.tap('GetAssetsProvider', stats => {
+      app.locals.getAssets = createGetAssetsCreator()(stats);
+    });
+
     app.use(
       webpackDevMiddleware(compiler, {
         hot: process.env.WEBPACK_ENABLE_HMR === '1',
@@ -49,6 +54,8 @@ function createApplication() {
         })
       );
     }
+  } else {
+    app.locals.getAssets = createGetAssetsCreator()();
   }
 
   app.get('*', createRenderMiddleware());
