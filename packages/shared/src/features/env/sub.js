@@ -1,4 +1,4 @@
-export function sub(str, dict) {
+function sub(str, dict) {
   if (!str || typeof str !== 'string') {
     return str;
   }
@@ -12,7 +12,7 @@ export function sub(str, dict) {
   });
 }
 
-export function createSubenv(defaults) {
+function createSubenv(defaults) {
   let processEnv;
 
   if (defaults !== null && typeof defaults === 'object') {
@@ -23,3 +23,8 @@ export function createSubenv(defaults) {
 
   return str => sub(str, processEnv);
 }
+
+module.exports = {
+  createSubenv,
+  sub,
+};

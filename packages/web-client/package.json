@@ -21,6 +21,8 @@
     "eslint-plugin-react": "7.9.1",
     "jest": "23.1.0",
     "react-hot-loader": "4.3.3",
+    "stats-webpack-plugin": "0.6.2",
+    "uglifyjs-webpack-plugin": "1.2.7",
     "webpack": "4.12.0",
     "webpack-command": "0.2.1"
   },

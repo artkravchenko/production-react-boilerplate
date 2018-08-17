@@ -1,11 +1,19 @@
 const path = require('path');
+const StatsWebpackPlugin = require('stats-webpack-plugin');
+const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+
+const defaults = require('shared/src/features/env/defaults');
+const { createSubenv } = require('shared/src/features/env/sub');
 
 const { getClientBabelConfig } = require('../babel/client');
 const merge = require('./utils/merge');
 
 const context = path.join(__dirname, '../../../'),
+  assetsPath = path.join(context, 'build/public/assets'),
   __DEV__ = process.env.NODE_ENV !== 'production';
+
+const subenv = createSubenv(defaults);
 
 function getEntry() {
   if (process.env.WEBPACK_ENABLE_HMR === '1') {
@@ -18,7 +26,18 @@ function getEntry() {
   return ['./src/index.js'];
 }
 
+function getWebpackStatsPath() {
+  let statsPath = subenv(process.env.WEBPACK_CLIENT_STATS_PATH);
+
+  if (!statsPath) {
+    statsPath = path.join(context, './build/webpack/app-stats.json');
+  }
+
+  return path.relative(assetsPath, statsPath);
+}
+
 const configuration = {
+  bail: true,
   context,
 
   entry: {
@@ -56,7 +75,7 @@ const configuration = {
   },
 
   output: {
-    path: path.join(context, 'build/public/assets'),
+    path: assetsPath,
     publicPath: '/assets/',
   },
 
@@ -77,7 +96,6 @@ function truthy(x) {
 
 if (__DEV__) {
   merge(configuration, {
-    bail: true,
     cache: true,
     devtool: 'eval',
 
@@ -97,6 +115,39 @@ if (__DEV__) {
         ? new webpack.HotModuleReplacementPlugin()
         : null,
     ].filter(truthy),
+  });
+} else {
+  merge(configuration, {
+    output: {
+      chunkFilename: '[name].[chunkhash].js',
+      filename: '[name].[chunkhash].js',
+    },
+
+    optimization: {
+      minimize: true,
+      minimizer: [
+        new UglifyJsWebpackPlugin({
+          cache: true,
+          exclude: [/\.min\.js$/gi],
+          parallel: true,
+          uglifyOptions: {
+            compress: {
+              unsafe: true,
+              unsafe_comps: true,
+            },
+            ie8: false,
+            output: {
+              comments: false,
+            },
+            safari10: true,
+            toplevel: true,
+            warnings: false,
+          },
+        }),
+      ],
+    },
+
+    plugins: [new StatsWebpackPlugin(getWebpackStatsPath())],
   });
 }
 

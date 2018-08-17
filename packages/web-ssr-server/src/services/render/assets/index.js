@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import * as defaults from 'shared/src/features/env/defaults';
+import defaults from 'shared/src/features/env/defaults';
 import { createSubenv } from 'shared/src/features/env/sub';
 
 function createResolveAssetPath(publicPath) {
