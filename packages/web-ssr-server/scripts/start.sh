@@ -24,6 +24,8 @@ readlinkf() {
 
 PROJECT=`readlinkf "$(dirname "$(readlinkf "${BASH_SOURCE[0]}")")/../../.."`
 
+eval $("$PROJECT/packages/shared/scripts/env/extract.sh")
+
 if [[ $WEBPACK_ENABLE_DEV_SERVER == "1" ]]; then
   "$PROJECT/packages/web-client/scripts/build/webpack/before-build.sh"
 fi
