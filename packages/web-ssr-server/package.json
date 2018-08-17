@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "scripts/start.sh",
     "ci": "npm run test -- --ci",
     "test": "jest --color --config resources/jest/jest.config.js"
   },
