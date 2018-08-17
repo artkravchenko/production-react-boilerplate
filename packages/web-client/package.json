@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build-step:webpack": "node --max_old_space_size=1000 node_modules/.bin/webpack --config resources/build/webpack/app.config.js",
+    "build": "scripts/build/build.sh",
     "ci": "npm run lint && (npm run test -- --ci)",
     "lint": "eslint . --ext .js -c .eslintrc.js --color",
     "test": "jest --color --coverage"
