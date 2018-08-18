@@ -12,3 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
     presets: ['@babel/preset-react'],
   });
 }
+
+function noop() {}
+
+require.extensions['.css'] = noop;

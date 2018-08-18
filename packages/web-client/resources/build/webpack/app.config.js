@@ -1,3 +1,4 @@
+const ExtractCssChunksWebpackPlugin = require('extract-css-chunks-webpack-plugin');
 const path = require('path');
 const StatsWebpackPlugin = require('stats-webpack-plugin');
 const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
@@ -99,6 +100,24 @@ if (__DEV__) {
     cache: true,
     devtool: 'eval',
 
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
+          use: [
+            ExtractCssChunksWebpackPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
+
     output: {
       chunkFilename: '[name].js',
       filename: '[name].js',
@@ -111,6 +130,11 @@ if (__DEV__) {
         name: 'vendor',
       }),
 
+      new ExtractCssChunksWebpackPlugin({
+        filename: '[name].css',
+        hot: true,
+      }),
+
       process.env.WEBPACK_ENABLE_HMR === '1'
         ? new webpack.HotModuleReplacementPlugin()
         : null,
@@ -121,6 +145,16 @@ if (__DEV__) {
     output: {
       chunkFilename: '[name].[chunkhash].js',
       filename: '[name].[chunkhash].js',
+    },
+
+    module: {
+      rules: [
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
+          use: [ExtractCssChunksWebpackPlugin.loader, { loader: 'css-loader' }],
+        },
+      ],
     },
 
     optimization: {
@@ -147,7 +181,14 @@ if (__DEV__) {
       ],
     },
 
-    plugins: [new StatsWebpackPlugin(getWebpackStatsPath())],
+    plugins: [
+      new ExtractCssChunksWebpackPlugin({
+        filename: '[name].[chunkhash].css',
+        hot: false,
+      }),
+
+      new StatsWebpackPlugin(getWebpackStatsPath()),
+    ],
   });
 }
 

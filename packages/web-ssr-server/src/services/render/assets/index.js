@@ -40,12 +40,21 @@ function getScriptAssets(assets) {
   return scriptFilenames;
 }
 
+function getStyleAssets(assets) {
+  const styleAssets = assets.filter(createHasAssetExtension('.css'));
+  const styleFilenames = styleAssets.map(getAssetFilename);
+
+  return styleFilenames;
+}
+
 function createGetAssets(stats) {
   return () => {
     const scripts = getScriptAssets(stats.assets);
+    const styles = getStyleAssets(stats.assets);
 
     return {
       scripts: scripts.map(createResolveAssetPath(stats.publicPath)),
+      styles: styles.map(createResolveAssetPath(stats.publicPath)),
     };
   };
 }
