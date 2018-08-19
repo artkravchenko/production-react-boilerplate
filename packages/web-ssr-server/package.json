@@ -5,7 +5,7 @@
   "scripts": {
     "start": "scripts/start.sh",
     "ci": "npm run test -- --ci",
-    "test": "jest --color --config resources/jest/jest.config.js"
+    "test": "scripts/test.sh"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.51",
