@@ -1,4 +1,6 @@
+const cssnano = require('cssnano');
 const ExtractCssChunksWebpackPlugin = require('extract-css-chunks-webpack-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path');
 const StatsWebpackPlugin = require('stats-webpack-plugin');
 const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
@@ -9,6 +11,7 @@ const { createSubenv } = require('shared/src/features/env/sub');
 
 const { getClientBabelConfig } = require('../babel/client');
 const { getBrowserslist } = require('../browserslist');
+const { getCssnanoOptions } = require('../cssnano');
 const merge = require('./utils/merge');
 
 const context = path.join(__dirname, '../../../'),
@@ -61,6 +64,11 @@ function getPostCssLoader() {
         require('postcss-preset-env')({
           browsers: getBrowserslist({ mode: 'production' }),
         }),
+        // FIXME: keep this partial duplication (subset)
+        // of OptimizeCssAssetsWebpackPlugin until
+        // https://github.com/NMFR/optimize-css-assets-webpack-plugin/issues/71
+        // is resolved
+        cssnano(getCssnanoOptions()),
       ],
     },
   };
@@ -248,6 +256,14 @@ if (__DEV__) {
     optimization: {
       minimize: true,
       minimizer: [
+        // Why this plugin is used instead of postcss-loader + cssnano:
+        // it removes chunk's duplicates if the chunk has been imported
+        // mupliple times at the scope of whole project
+        new OptimizeCssAssetsWebpackPlugin({
+          cssProcessor: cssnano,
+          cssProcessorOptions: getCssnanoOptions(),
+        }),
+
         new UglifyJsWebpackPlugin({
           cache: true,
           exclude: [/\.min\.js$/gi],
