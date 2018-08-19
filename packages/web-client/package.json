@@ -8,6 +8,7 @@
     "clean": "rm -rf build coverage",
     "clean-build": "yarn clean && yarn build",
     "lint": "eslint . --ext .js -c .eslintrc.js --color",
+    "preci": "NODE_ENV=production yarn clean-build",
     "test": "jest --color --coverage"
   },
   "devDependencies": {
