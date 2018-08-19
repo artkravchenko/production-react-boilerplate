@@ -156,6 +156,27 @@ if (__DEV__) {
             getPostCssLoader(),
           ],
         },
+        {
+          test: /\.scss$/,
+          exclude: /node_modules/,
+          use: [
+            ExtractCssChunksWebpackPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 2,
+                sourceMap: true,
+              },
+            },
+            getPostCssLoader(),
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
       ],
     },
 
@@ -200,6 +221,25 @@ if (__DEV__) {
               options: { importLoaders: 1 },
             },
             getPostCssLoader(),
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.scss$/,
+          exclude: /node_modules/,
+          use: [
+            ExtractCssChunksWebpackPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: { importLoaders: 2 },
+            },
+            getPostCssLoader(),
+            'sass-loader',
           ],
         },
       ],
