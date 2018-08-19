@@ -8,6 +8,7 @@ const defaults = require('shared/src/features/env/defaults');
 const { createSubenv } = require('shared/src/features/env/sub');
 
 const { getClientBabelConfig } = require('../babel/client');
+const { getBrowserslist } = require('../browserslist');
 const merge = require('./utils/merge');
 
 const context = path.join(__dirname, '../../../'),
@@ -25,6 +26,44 @@ function getEntry() {
   }
 
   return ['./src/index.js'];
+}
+
+function getPostCssLoader() {
+  const defaultOptions = {
+    config: {
+      path: path.join(context, 'resources/build/postcss'),
+    },
+    plugins: [],
+  };
+
+  if (__DEV__) {
+    return {
+      loader: 'postcss-loader',
+      options: {
+        ...defaultOptions,
+        plugins: [
+          ...defaultOptions.plugins,
+          require('postcss-preset-env')({
+            browsers: getBrowserslist({ mode: 'development' }),
+          }),
+        ],
+        sourceMap: true,
+      },
+    };
+  }
+
+  return {
+    loader: 'postcss-loader',
+    options: {
+      ...defaultOptions,
+      plugins: [
+        ...defaultOptions.plugins,
+        require('postcss-preset-env')({
+          browsers: getBrowserslist({ mode: 'production' }),
+        }),
+      ],
+    },
+  };
 }
 
 function getWebpackStatsPath() {
@@ -110,9 +149,11 @@ if (__DEV__) {
             {
               loader: 'css-loader',
               options: {
+                importLoaders: 1,
                 sourceMap: true,
               },
             },
+            getPostCssLoader(),
           ],
         },
       ],
@@ -152,7 +193,14 @@ if (__DEV__) {
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: [ExtractCssChunksWebpackPlugin.loader, { loader: 'css-loader' }],
+          use: [
+            ExtractCssChunksWebpackPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: { importLoaders: 1 },
+            },
+            getPostCssLoader(),
+          ],
         },
       ],
     },
