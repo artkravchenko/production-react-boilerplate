@@ -1,1 +1,5 @@
 /resources/nginx/*.conf
+/var/log/*
+/var/run/*
+
+!*.gitkeep

@@ -23,10 +23,6 @@ function createApplication() {
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'ejs');
 
-  app.use(
-    express.static(path.join(__dirname, '../../web-client/build/public'))
-  );
-
   if (process.env.WEBPACK_ENABLE_DEV_SERVER === '1') {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');

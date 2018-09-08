@@ -24,6 +24,8 @@ readlinkf() {
 
 PROJECT=`readlinkf "$(dirname "$(readlinkf "${BASH_SOURCE[0]}")")/../../.."`
 
+eval $("$PROJECT/packages/shared/scripts/env/extract.sh")
+
 script_path="$PROJECT/packages/web-server/scripts"
 nginx_resources_path="$PROJECT/packages/web-server/resources/nginx"
 
@@ -32,4 +34,8 @@ for filename in $nginx_resources_path"/templates/*.template.conf"; do
     "${nginx_resources_path}/$(basename ${filename} .template.conf).conf"
 done
 
-nginx -c "${nginx_resources_path}/nginx.conf" -g "daemon off;" "$@"
+if [ "$WEB_SERVER_SUDO" == "1" ]; then
+  sudo nginx -c "${nginx_resources_path}/nginx.conf" -g "daemon off;" "$@"
+else 
+  nginx -c "${nginx_resources_path}/nginx.conf" -g "daemon off;" "$@"
+fi
