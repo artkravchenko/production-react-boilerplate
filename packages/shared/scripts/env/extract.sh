@@ -70,6 +70,26 @@ while read env_kv; do
   echo "export $env_kv"
 done <<< $env_kv_lines
 
+# Produce default values of env variables
+# which are dynamic from one user to another
+# if they're still unset (not exported) after previous step
+
+default_envs=()
+
+if [ -z "$(printenv "PROJECT_ROOT_PATH")" ]; then
+  project_root_path="$PACKAGE/../.."
+  default_envs+=("PROJECT_ROOT_PATH=$project_root_path")
+fi
+
+for env_kv in "${default_envs[@]}"; do
+  env_key=$(sed 's/=.*$//' <<< "$env_kv")
+
+  if [ -z "$(printenv $env_key)" ]; then
+    export "$env_kv"
+    echo "export $env_kv"
+  fi
+done
+
 counter=${#template_envs[@]}
 
 while [ ! "${#template_envs[@]}" -eq 0 ] && [ "$counter" -gt 0 ]; do
