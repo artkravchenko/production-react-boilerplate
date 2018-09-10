@@ -133,6 +133,7 @@ const configuration = {
     new webpack.NamedModulesPlugin(),
 
     new webpack.EnvironmentPlugin({
+      NODE_ENV: null,
       SSR_ENABLED: null,
     }),
   ],
