@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 
   registerBabelHook({
     configFile: path.join(webSSRServerPath, 'resources/babel/babel.config.js'),
-    ignore: [/node_modules\/(?!shared)/],
+    ignore: [/node_modules\/(?!(shared|web-client))/],
   });
 }
 

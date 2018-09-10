@@ -9,5 +9,5 @@ module.exports = {
   transform: {
     '^.+\\.jsx?$': './resources/jest/babel-transform',
   },
-  transformIgnorePatterns: ['/node_modules/(?!(shared|web-client))'],
+  transformIgnorePatterns: ['node_modules/(?!(shared|web-client))'],
 };
