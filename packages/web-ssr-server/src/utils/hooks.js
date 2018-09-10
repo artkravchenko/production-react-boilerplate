@@ -1,15 +1,12 @@
 if (process.env.NODE_ENV !== 'production') {
+  const path = require('path');
   const registerBabelHook = require('@babel/register');
 
+  const webSSRServerPath = path.join(__dirname, '../../');
+
   registerBabelHook({
-    babelrc: false,
+    configFile: path.join(webSSRServerPath, 'resources/babel/babel.config.js'),
     ignore: [/node_modules\/(?!shared)/],
-    plugins: [
-      '@babel/plugin-proposal-class-properties',
-      '@babel/plugin-proposal-object-rest-spread',
-      'babel-plugin-transform-es2015-modules-commonjs',
-    ],
-    presets: ['@babel/preset-react'],
   });
 }
 

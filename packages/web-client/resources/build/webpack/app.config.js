@@ -9,7 +9,6 @@ const webpack = require('webpack');
 const defaults = require('shared/src/features/env/defaults');
 const { createSubenv } = require('shared/src/features/env/sub');
 
-const { getClientBabelConfig } = require('../babel/client');
 const { getBrowserslist } = require('../browserslist');
 const { getCssnanoOptions } = require('../cssnano');
 const merge = require('./utils/merge');
@@ -109,7 +108,10 @@ const configuration = {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            ...getClientBabelConfig(),
+            configFile: path.join(
+              context,
+              'resources/build/babel/babel.config.js'
+            ),
           },
         },
       },

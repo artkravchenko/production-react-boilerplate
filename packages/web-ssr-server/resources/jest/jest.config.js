@@ -7,7 +7,7 @@ module.exports = {
   rootDir: '../../',
   setupTestFrameworkScriptFile: './resources/jest/init.js',
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.jsx?$': './resources/jest/babel-transform',
   },
   transformIgnorePatterns: ['/node_modules/(?!(shared|web-client))'],
 };
