@@ -23,7 +23,9 @@ function createApplication() {
   if (process.env.WEBPACK_ENABLE_DEV_SERVER === '1') {
     const webpack = require('webpack');
     const webpackDevMiddleware = require('webpack-dev-middleware');
+
     const webpackConfig = require('web-client/resources/build/webpack/app.config.js');
+    const { clearClientCache } = require('./utils/hot-reloading');
 
     const compiler = webpack(webpackConfig);
 
@@ -32,6 +34,8 @@ function createApplication() {
       app.locals.getAssets = createGetAssetsCreator()(stats);
       app.locals.webpackStats = stats;
     });
+
+    compiler.hooks.done.tap('SSRClientCacheCleaner', clearClientCache);
 
     app.use(
       webpackDevMiddleware(compiler, {
@@ -71,7 +75,10 @@ function createApplication() {
     });
   }
 
-  if (process.env.SSR_ENABLE_HMR === '1') {
+  if (
+    process.env.SSR_ENABLE_HMR === '1' ||
+    process.env.WEBPACK_ENABLE_DEV_SERVER === '1'
+  ) {
     app.get('*', (req, res, next) => {
       const render = require('./services/render').createRenderMiddleware();
       render(req, res, next);

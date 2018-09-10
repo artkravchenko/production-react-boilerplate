@@ -12,10 +12,25 @@ function clearRequireCache(predicate) {
   }
 }
 
+const clientFilenamePattern = /web-client\/src/;
 const ssrServerFilenamePattern = /web-ssr-server\/src/;
+
+function isClientFile(id) {
+  return clientFilenamePattern.test(id);
+}
 
 function isServerFile(id) {
   return ssrServerFilenamePattern.test(id);
+}
+
+export function clearClientCache() {
+  // eslint-disable-next-line no-console
+  console.log('Started to clear web-client modules cache');
+
+  clearRequireCache(isClientFile);
+
+  // eslint-disable-next-line no-console
+  console.log('Finished to clear web-client modules cache');
 }
 
 export function clearServerCache() {
