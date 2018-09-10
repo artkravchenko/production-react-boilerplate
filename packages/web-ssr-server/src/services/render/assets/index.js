@@ -1,4 +1,5 @@
 import fs from 'fs';
+import flushWebpackChunks from 'webpack-flush-chunks';
 
 import defaults from 'shared/src/features/env/defaults';
 import { createSubenv } from 'shared/src/features/env/sub';
@@ -7,54 +8,32 @@ function createResolveAssetPath(publicPath) {
   return filename => `${publicPath}${filename}`;
 }
 
-function createHasAssetExtension(ext) {
-  return asset => asset.name.endsWith(ext);
-}
-
-function compareScriptsOrder(a, b) {
-  const scriptsOrder = ['manifest', 'vendor', 'app'];
-
-  const aOrder = scriptsOrder.indexOf(a.chunkNames[0]);
-  const bOrder = scriptsOrder.indexOf(b.chunkNames[0]);
-
-  return aOrder - bOrder;
-}
-
-function getAssetFilename(asset) {
-  return asset.name;
-}
-
-function getScriptAssets(assets) {
-  const scriptAssets = assets.filter(createHasAssetExtension('.js'));
-
-  if (process.env.WEBPACK_ENABLE_DEV_SERVER === '1') {
-    scriptAssets.push({
-      chunkNames: ['vendor'],
-      name: 'vendor.js',
-    });
-  }
-
-  const sortedScriptAssets = scriptAssets.slice().sort(compareScriptsOrder);
-  const scriptFilenames = sortedScriptAssets.map(getAssetFilename);
-
-  return scriptFilenames;
-}
-
-function getStyleAssets(assets) {
-  const styleAssets = assets.filter(createHasAssetExtension('.css'));
-  const styleFilenames = styleAssets.map(getAssetFilename);
-
-  return styleFilenames;
-}
+const AFTER_CHUNKS = ['app'];
+const BEFORE_CHUNKS = ['manifest'];
+const MISSING_BEFORE_SCRIPTS = ['vendor.js'];
 
 function createGetAssets(stats) {
-  return () => {
-    const scripts = getScriptAssets(stats.assets);
-    const styles = getStyleAssets(stats.assets);
+  return options => {
+    const assets = flushWebpackChunks(stats, {
+      after: AFTER_CHUNKS,
+      before: BEFORE_CHUNKS,
+      chunkNames: options.webpackChunkNames,
+    });
+
+    let scripts;
+
+    if (process.env.WEBPACK_ENABLE_DEV_SERVER === '1') {
+      scripts = assets.scripts
+        .slice(0, 1)
+        .concat(MISSING_BEFORE_SCRIPTS, assets.scripts.slice(1));
+    } else {
+      scripts = assets.scripts;
+    }
 
     return {
+      cssChunks: assets.cssHash,
       scripts: scripts.map(createResolveAssetPath(stats.publicPath)),
-      styles: styles.map(createResolveAssetPath(stats.publicPath)),
+      styles: assets.stylesheets.map(createResolveAssetPath(stats.publicPath)),
     };
   };
 }

@@ -21,6 +21,16 @@ describe('app.js', () => {
             }
           });
       });
+
+      it('responds with synchronously resolved chunks', () => {
+        return request(app)
+          .get('/hello')
+          .expect(res => {
+            if (res.text.includes('Loading...')) {
+              throw new Error('There are unresolved chunks in the response');
+            }
+          });
+      });
     });
   });
 });

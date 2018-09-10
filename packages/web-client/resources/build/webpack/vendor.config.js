@@ -1,3 +1,4 @@
+const { without } = require('lodash');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -7,11 +8,17 @@ const dependencies = Object.keys(packageConfiguration.dependencies);
 
 const context = path.join(__dirname, '../../../');
 
+const blackList = [
+  // keeping inside vendor.js bundle, causes universal components
+  // to be at the loading state first at the client-side
+  'react-universal-component',
+];
+
 const webClientVendorConfiguration = {
   context,
 
   entry: {
-    vendor: dependencies,
+    vendor: without(dependencies, ...blackList),
   },
 
   output: {

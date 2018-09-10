@@ -6,7 +6,9 @@ export function renderView(locals, bag) {
   return bag.res.app
     .renderAsync('index', {
       applicationHTML: locals.applicationHTML,
-      assets: locals.getAssets(),
+      assets: locals.getAssets({
+        webpackChunkNames: locals.webpackChunkNames,
+      }),
     })
     .then(html => ({ html }));
 }

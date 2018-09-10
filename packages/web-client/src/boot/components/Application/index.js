@@ -1,15 +1,10 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
 
-import Header from 'web-client/src/shared/widgets/Header';
+import ApplicationRouter from './router';
 
 function Application() {
-  return (
-    <React.Fragment>
-      <Header />
-      <div>Hello world!</div>
-    </React.Fragment>
-  );
+  return <ApplicationRouter routeName="Main" />;
 }
 
 export default hot(module)(Application);
