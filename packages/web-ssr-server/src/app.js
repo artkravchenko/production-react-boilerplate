@@ -1,9 +1,6 @@
 import express from 'express';
 import path from 'path';
 
-import { createRenderMiddleware } from './services/render';
-import { createGetAssetsCreator } from './services/render/assets/index';
-
 // logging
 // cors
 // errors?
@@ -31,7 +28,9 @@ function createApplication() {
     const compiler = webpack(webpackConfig);
 
     compiler.hooks.done.tap('GetAssetsProvider', stats => {
+      const { createGetAssetsCreator } = require('./services/render/assets');
       app.locals.getAssets = createGetAssetsCreator()(stats);
+      app.locals.webpackStats = stats;
     });
 
     app.use(
@@ -51,10 +50,35 @@ function createApplication() {
       );
     }
   } else {
+    const { createGetAssetsCreator } = require('./services/render/assets');
     app.locals.getAssets = createGetAssetsCreator()();
   }
 
-  app.get('*', createRenderMiddleware());
+  if (process.env.SSR_ENABLE_HMR === '1') {
+    const { watchServer } = require('./utils/watch');
+    const { clearServerCache } = require('./utils/hot-reloading');
+
+    const watcher = watchServer();
+
+    watcher.on('ready', () => {
+      watcher.on('all', () => {
+        clearServerCache();
+
+        const { createGetAssetsCreator } = require('./services/render/assets');
+        const getAssets = createGetAssetsCreator()(app.locals.webpackStats);
+        app.locals.getAssets = getAssets;
+      });
+    });
+  }
+
+  if (process.env.SSR_ENABLE_HMR === '1') {
+    app.get('*', (req, res, next) => {
+      const render = require('./services/render').createRenderMiddleware();
+      render(req, res, next);
+    });
+  } else {
+    app.get('*', require('./services/render').createRenderMiddleware());
+  }
 
   if (process.env.SSR_ENABLED === '1') {
     app.renderAsync = Promise.promisify(app.render, { context: app });
