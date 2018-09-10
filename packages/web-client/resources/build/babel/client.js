@@ -21,6 +21,7 @@ function getClientBabelConfig(options) {
     plugins: [
       'babel-plugin-universal-import',
       'react-hot-loader/babel',
+      '@babel/plugin-proposal-class-properties',
       '@babel/plugin-syntax-dynamic-import',
       [
         'babel-plugin-module-resolver',
