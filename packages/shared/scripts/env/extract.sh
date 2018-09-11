@@ -68,7 +68,7 @@ while read env_kv; do
 
   export "$env_kv"
   echo "export $env_kv"
-done <<< $env_kv_lines
+done <<< "$env_kv_lines"
 
 # Produce default values of env variables
 # which are dynamic from one user to another
@@ -96,13 +96,13 @@ while [ ! "${#template_envs[@]}" -eq 0 ] && [ "$counter" -gt 0 ]; do
   next_template_envs=()
 
   for env_kv in "${template_envs[@]}"; do
-    env_key=$(sed 's/=.*$//' <<< $env_kv)
+    env_key=$(sed 's/=.*$//' <<< "$env_kv")
     
     if [ ! -z "$(printenv $env_key)" ]; then
       continue
     fi
 
-    env_val=$(sed 's/^.*=//' <<< $env_kv)
+    env_val=$(sed 's/^.*=//' <<< "$env_kv")
     env_refs=$(grep -Eo $env_pattern <<< "$env_val")
 
     if [ -z "$env_refs" ]; then
@@ -124,7 +124,7 @@ while [ ! "${#template_envs[@]}" -eq 0 ] && [ "$counter" -gt 0 ]; do
         # Replace x$ref_env_key unless x is a backslash
         next_env_val=$(sed 's/\([^\\]\)\$'"$ref_env_key"'/\1'"$ref_env_val"'/g' <<< "$next_env_val")
       fi
-    done <<< $env_refs
+    done <<< "$env_refs"
 
     env_refs=$(grep -Eo $env_pattern <<< "$next_env_val")
     next_env_kv="$env_key=$next_env_val"
