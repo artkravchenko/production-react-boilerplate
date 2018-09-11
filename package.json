@@ -20,6 +20,7 @@
     "ci": "lerna run ci --stream --concurrency 1",
     "clean": "lerna run clean",
     "lint": "lerna run lint --stream",
+    "prepare": "lerna run prepare --stream --concurrency 1",
     "start": "lerna run start --parallel --stream",
     "test": "lerna run test --stream --concurrency 1"
   },
