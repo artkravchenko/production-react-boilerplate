@@ -12,8 +12,8 @@ You just have `webpack` and friends pre-configured and well-explained for effici
 
 #### Hot-reloading
 
-  - [ ] hot-reload client-side bundle;
-  - [ ] hot-reload SSR;
+  - [x] hot-reload client-side bundle;
+  - [x] hot-reload SSR;
   - [ ] hot-reload API server;
   - [ ] hot-reload shared resources (i18n especially);
 
@@ -49,12 +49,12 @@ You just have `webpack` and friends pre-configured and well-explained for effici
 
 #### Maintainability
 
-  - [ ] provide JavaScript linting tools configured for client and server sides to share the same code style;
-  - [ ] provide tools to fix code style issues automatically;
-  - [ ] perform linting, incorrect code formatting fixing and testing as pre-configured commit hooks;
+  - [x] provide JavaScript linting tools configured for client and server sides to share the same code style;
+  - [x] provide tools to fix code style issues automatically;
+  - [x] perform linting, incorrect code formatting fixing and testing as pre-configured commit hooks;
   - [ ] provide easy to use and semantically correct project structure;
   - [ ] follow the best practices and guidelines of modern JavaScript web development;
-  - [ ] configure the binding to CI services;
+  - [x] configure the binding to CI services;
   - [ ] provide contribution guidelines to organize an open-source project;
   - [ ] provide comments and documentation of boilerplate's modules;
   - [ ] write notes about architectural solutions and the ways to improve and powerfully customize the project;
