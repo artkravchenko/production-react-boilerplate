@@ -6,9 +6,19 @@ Without need to remake the application from scratch in the nearest future, when 
 
 You just have `webpack` and friends pre-configured and well-explained for efficient usage without mess.
 
-**Warning:** the boilerplate isn't stable yet and there're incomplete stages of development. That said, it isn't recommended to use the project at production until `v1.0.0` is released. 
+**Warning:** the boilerplate isn't stable yet and there're incomplete stages of development. That said, it isn't recommended to use the project at production until `v1.0.0` is released.
 
 ## Development status
+
+### Current status (updated 06/17/2019)
+
+The boilerplate's parts are planned to be released as a set of npm packages to increase derived projects' maintainability and scalability of development. This means the shape of the resulting boilerplate will be changed completely compared to one right now. Simplicity of [Next.js](https://github.com/zeit/next.js/) and [`create-react-app`](https://github.com/facebook/create-react-app) as well as their upgradability are definitely few of the goals of this project.
+
+Some of far more advanced frontend performance related techniques are integrated into [fish.travel](https://fish.travel) now as a result of few months of my own part/full-time volunteering. They are expected to appear in this open source project in 2019. However, it will happen only after modular and third-party packages oriented project structure is finally introduced.
+
+In addition, SSR webpack bridge and hot reloading's story is also about to be released here in the near future.
+
+___
 
 #### Hot-reloading
 
