@@ -42,7 +42,7 @@
     "webpack-command": "0.2.1"
   },
   "dependencies": {
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "react": "16.4.1",
     "react-dom": "16.4.1",
     "react-universal-component": "3.0.1"
